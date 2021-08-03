@@ -28,6 +28,7 @@ params:
   customCSS:
     - css/author.css
     - css/switcher.css
+    - css/header.css
   # customJS:
   #   - js/main.js # relative path to "assets" directory
   dateFormat: "2006-01-02"
