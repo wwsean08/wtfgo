@@ -7,27 +7,27 @@ enableRobotsTXT: true
 permalinks:
   post: /:year/:month/:title/
 
-#menu:
-#  main:
-#  - identifier: archive
-#    name: Archive
-#    title: Archive
-#    url: /posts/
-#    weight: 1
-#  - identifier: about
-#    name: About
-#    title: About
-#    url: /about/
-#    weight: 0
+menu:
+  main:
+  - identifier: archive
+    name: Archive
+    title: Archive
+    url: /posts/
+    weight: 1
+  - identifier: about
+    name: About
+    title: About
+    url: /about/
+    weight: 0
 
 params:
-  author: "Sean Smith"
   description: "Sometimes go is f@#king hard"
   # Uncomment if you need this
   # images:
   #   - images/og-featured.png # relative path to "static" directory
-  # customCSS:
-  #   - css/my.css # relative path to "assets" directory (don't use main.css filename)
+  customCSS:
+    - css/author.css
+    - css/switcher.css
   # customJS:
   #   - js/main.js # relative path to "assets" directory
   dateFormat: "2006-01-02"
@@ -41,9 +41,5 @@ params:
   utterancesIssue: "" # optional
   utterancesLabel: "" # optional
   social:
-  - id: twitter
-    name: wwsean08
-    url: "https://twitter.com/wwsean08"
-#  - id: hugo
-#    url: "https://gohugo.io/"
-#    icon: "hugo"
+  - id: github
+    name: wwsean08/wtfgo
