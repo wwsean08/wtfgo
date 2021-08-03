@@ -43,3 +43,5 @@ params:
   social:
   - id: github
     name: wwsean08/wtfgo
+  - id: rss
+    url: /index.xml
