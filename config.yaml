@@ -4,6 +4,8 @@ title: "wtf go"
 theme: "anubis"
 paginate: 10
 enableRobotsTXT: true
+permalinks:
+  post: /:year/:month/:title/
 
 #menu:
 #  main:
