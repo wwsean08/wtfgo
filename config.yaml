@@ -21,6 +21,7 @@ menu:
     weight: 0
 
 params:
+  author: Sean Smith
   description: "Sometimes go is f@#king hard"
   # Uncomment if you need this
   # images:
