@@ -675,3 +675,18 @@ ul.language-select > li, ul.footer-menu > li {
     vertical-align: middle;
 }
 
+.header-top div {
+    display: inline-block;
+    flex-grow: 0;
+}
+
+.nav-div {
+    flex-grow: 1000 !important;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.nav-div nav {
+    background-color: inherit !important;
+}
+
