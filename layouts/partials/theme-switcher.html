@@ -4,10 +4,11 @@
 {{ end }}
 
 {{ if not (in (slice "light-without-switcher" "dark-without-switcher" "auto-without-switcher") $style) }}
-    <button class="theme-switcher">
-        {{ i18n "darkTheme" | emojify }}
-    </button>
-
+    <div class="theme-wrapper">
+        <button class="theme-switcher">
+            {{ i18n "darkTheme" | emojify }}
+        </button>
+    </div>
     <script>
     const STORAGE_KEY = 'user-color-scheme'
     const defaultTheme = {{ $style }}

@@ -28,7 +28,7 @@ params:
   #   - images/og-featured.png # relative path to "static" directory
   customCSS:
     - css/author.css
-    - css/switcher.css
+    - css/footer.css
     - css/header.css
   # customJS:
   #   - js/main.js # relative path to "assets" directory

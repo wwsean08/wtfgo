@@ -1,0 +1,13 @@
+.theme-switcher {
+    background: inherit !important;
+    font-size: 24px;
+}
+
+.theme-wrapper {
+    display: inline-block;
+    float: right;
+}
+
+.common-footer-bottom {
+    flex-wrap: inherit !important;
+}
