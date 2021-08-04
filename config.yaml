@@ -22,7 +22,7 @@ menu:
 
 params:
   author: Sean Smith & Contributors
-  description: "Sometimes go is f@#king hard"
+  description: "Sometimes go is f#!king hard"
   # Uncomment if you need this
   # images:
   #   - images/og-featured.png # relative path to "static" directory
