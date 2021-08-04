@@ -1,18 +1,24 @@
 <div class="header-top">
-    <h1 class="site-title">
-        <a class="site-url" href="{{ .Site.BaseURL | relLangURL }}"><img class="logo" src="/logo.png"/> {{ .Site.Title }}</a>
-    </h1>
-    {{ partial "social.html" . }}
+    <div>
+        <h1 class="site-title">
+            <a class="site-url" href="{{ .Site.BaseURL | relLangURL }}"><img class="logo" src="/logo.png"/> {{ .Site.Title }}</a>
+        </h1>
+    </div>
+    <div class="nav-div">
+        {{ if .Site.Menus.main }}
+        <nav>
+            {{ $currentPage := . }}
+            {{ range .Site.Menus.main }}
+            <a class="{{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} active{{end}}" href="{{ .URL | absLangURL }}" title="{{ .Title }}">{{ .Name }}</a>
+            {{ end }}
+        </nav>
+        {{ else }}
+        <nav></nav>
+        {{ end }}
+    </div>
+    <div>
+        {{ partial "social.html" . }}
+    </div>
 </div>
-{{ if .Site.Menus.main }}
-<nav>
-    {{ $currentPage := . }}
-    {{ range .Site.Menus.main }}
-    <a class="{{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} active{{end}}" href="{{ .URL | absLangURL }}" title="{{ .Title }}">{{ .Name }}</a>
-    {{ end }}
-</nav>
-{{ else }}
-<nav></nav>
-{{ end }}
 
 {{ partial "header-extra.html" . }}
