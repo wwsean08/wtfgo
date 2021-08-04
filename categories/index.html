@@ -9,7 +9,7 @@
 <link rel=alternate type=application/rss+xml href=https://golang.wtf/categories/index.xml title="wtf go">
 <link rel=icon type=image/x-icon href=https://golang.wtf/favicon.ico>
 <link rel=apple-touch-icon-precomposed href=https://golang.wtf/favicon.png>
-<link rel=stylesheet href=https://golang.wtf/css/style.min.c37c44f2c11781074e35e29921b375f506cf19dedc6fb874f71454683c0e8e0a.css integrity="sha256-w3xE8sEXgQdONeKZIbN19QbPGd7cb7h09xRUaDwOjgo=">
+<link rel=stylesheet href=https://golang.wtf/css/style.min.eaefaf3ba5a542914ed7ca13efe63109f01475ec4b76830e3c925c72dc07ff27.css integrity="sha256-6u+vO6WlQpFO18oT7+YxCfAUdexLdoMOPJJcctwH/yc=">
 <meta property="og:title" content="Categories">
 <meta property="og:description" content="Sometimes go is f#!king hard">
 <meta property="og:type" content="website">
@@ -69,9 +69,11 @@ This websites content and code are licensed under <a href=https://creativecommon
 </div>
 </p>
 </div>
+<div class=theme-wrapper>
 <button class=theme-switcher>
 🌙
 </button>
+</div>
 <script>const STORAGE_KEY='user-color-scheme',defaultTheme="auto";let currentTheme,switchButton,autoDefinedScheme=window.matchMedia('(prefers-color-scheme: dark)');const autoChangeScheme=a=>{currentTheme=a.matches?'dark':'light',document.documentElement.setAttribute('data-theme',currentTheme),changeButtonText()};document.addEventListener('DOMContentLoaded',function(){switchButton=document.querySelector('.theme-switcher'),currentTheme=detectCurrentScheme(),currentTheme=='dark'&&document.documentElement.setAttribute('data-theme','dark'),currentTheme=='auto'&&(autoChangeScheme(autoDefinedScheme),autoDefinedScheme.addListener(autoChangeScheme)),changeButtonText(),switchButton.addEventListener('click',switchTheme,!1)});function detectCurrentScheme(){return localStorage.getItem(STORAGE_KEY)?localStorage.getItem(STORAGE_KEY):defaultTheme?defaultTheme:window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light':'light'}function changeButtonText(){switchButton.textContent=currentTheme=='dark'?"☀️":"🌙"}function switchTheme(a){currentTheme=='dark'?(localStorage.setItem(STORAGE_KEY,'light'),document.documentElement.setAttribute('data-theme','light'),currentTheme='light'):(localStorage.setItem(STORAGE_KEY,'dark'),document.documentElement.setAttribute('data-theme','dark'),currentTheme='dark'),changeButtonText()}</script>
 </div>
 <p class="h-card vcard">
