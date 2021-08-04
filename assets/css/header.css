@@ -7,6 +7,11 @@
     vertical-align: middle;
 }
 
+.header-top {
+    min-width: 385px;
+    flex-wrap: inherit !important;
+}
+
 .header-top div {
     display: inline-block;
     flex-grow: 0;
