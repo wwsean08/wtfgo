@@ -1,0 +1,5 @@
+---
+name: Jane Doe
+bio: Jane Doe is a Senior Software Engineer at using Go to create microservices that run on Kubernetes at Acme Corp.
+image: "/media/authors/jane_doe.jpg"
+website: "https://example.com"
