@@ -1,13 +1,13 @@
 ---
 title: "How to conditionally build and test source code"
 description: "Build tags and special naming conventions are useful tools in your go toolbox"
+summary: "Build tags and special naming conventions are useful tools in your go toolbox"
 date: 2021-08-04T16:08:02-07:00
 draft: false #remember to change to false before submitting PR
 author: "wwsean08" # the name of your author file under data/authors minus the yaml file extension
 ---
 
 Go allows you to conditionally build source code based on attributes like the Operating System, Architecture, and even just plaintext tags, below is a breakdown of how they work.
-
 # File Naming
 The easiest way to build for a specific OS/Architecture is to append that information to the end of your filename, some examples include:
 * `main_windows.go`
