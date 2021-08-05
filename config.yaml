@@ -5,7 +5,7 @@ theme: "anubis"
 paginate: 10
 enableRobotsTXT: true
 permalinks:
-  post: /:year/:month/:title/
+  posts: /:year/:month/:title/
 
 menu:
   main:
