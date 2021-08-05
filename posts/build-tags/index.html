@@ -1,23 +1,23 @@
 <!doctype html><html lang=en-us data-theme>
 <head>
-<meta name=generator content="Hugo 0.87.0">
 <meta charset=utf-8>
 <meta name=HandheldFriendly content="True">
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=referrer content="no-referrer-when-downgrade">
-<title>wtf go</title>
+<title>How to conditionally build and test source code - wtf go</title>
 <meta name=description content="Sometimes go is f#!king hard">
-<link rel=alternate type=application/rss+xml href=https://golang.wtf/index.xml title="wtf go">
 <link rel=icon type=image/x-icon href=https://golang.wtf/favicon.ico>
 <link rel=apple-touch-icon-precomposed href=https://golang.wtf/favicon.png>
 <link rel=stylesheet href=https://golang.wtf/css/style.min.eaefaf3ba5a542914ed7ca13efe63109f01475ec4b76830e3c925c72dc07ff27.css integrity="sha256-6u+vO6WlQpFO18oT7+YxCfAUdexLdoMOPJJcctwH/yc=">
-<meta property="og:title" content="wtf go">
-<meta property="og:description" content="Sometimes go is f#!king hard">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://golang.wtf/">
+<meta property="og:title" content="How to conditionally build and test source code">
+<meta property="og:description" content="Build tags and special naming conventions are useful tools in your go toolbox">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://golang.wtf/posts/build-tags/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-08-04T16:08:02-07:00">
+<meta property="article:modified_time" content="2021-08-04T16:08:02-07:00">
 <meta name=twitter:card content="summary">
-<meta name=twitter:title content="wtf go">
-<meta name=twitter:description content="Sometimes go is f#!king hard">
+<meta name=twitter:title content="How to conditionally build and test source code">
+<meta name=twitter:description content="Build tags and special naming conventions are useful tools in your go toolbox">
 </head>
 <body>
 <a class=skip-main href=#main>Skip to main content</a>
@@ -54,23 +54,56 @@
 </div>
 </header>
 <main id=main tabindex=-1>
-<div class=homepage-content>
-</div>
-<div class="articles h-feed">
-<article class="post-list h-feed">
+<article class="post h-entry">
 <header class=post-header>
-<h1 class="p-name post-title"><a class=u-url href=/posts/build-tags/>How to conditionally build and test source code</a></h1>
+<h1 class="p-name post-title">How to conditionally build and test source code</h1>
 </header>
-<div class="content post-summary p-summary">
-Go allows you to conditionally build source code based on attributes like the Operating System, Architecture, and even just plaintext tags, below is a breakdown of how they work.
-File Naming The easiest way to build for a specific OS/Architecture is to append that information to the end of your filename, some examples include:
-main_windows.go main_darwin.go main_darwin_arm64.go specific to ARM macs, like MacBook Pros with an M1 processor The order of these names must be GOOS_GOARCH, the other way around will not work, and of course they still require a name beyond this suffix.
+<div class="content e-content">
+<p>Go allows you to conditionally build source code based on attributes like the Operating System, Architecture, and even just plaintext tags, below is a breakdown of how they work.</p>
+<h1 id=file-naming>File Naming</h1>
+<p>The easiest way to build for a specific OS/Architecture is to append that information to the end of your filename, some examples include:</p>
+<ul>
+<li><code>main_windows.go</code></li>
+<li><code>main_darwin.go</code></li>
+<li><code>main_darwin_arm64.go</code> specific to ARM macs, like MacBook Pros with an M1 processor</li>
+</ul>
+<p>The order of these names must be GOOS_GOARCH, the other way around will not work, and of course they still require a name beyond this suffix.</p>
+<p>This method is extremely useful if you have some set of functions that only exist in one OS or OS/ARCH combination. If you want something a little more granular, then you will need build tags.</p>
+<h1 id=build-tags>Build tags</h1>
+<p>Build tags are a special type of comment that go at the top of a code file to instruct the compiler when to conditionally compile the code. They can similarly specify that the code can only be built for a specific platform, but even more powerfully, they can specify multiple platforms. Below is an example of a file specifying that it can be built for Linux or Mac, but not for Windows.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// +build linux darwin
+</span><span style=color:#75715e></span>
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>foo</span> <span style=color:#75715e>// note the blank line above, that is required
+</span></code></pre></div><p>This could also be written similarly below (I realize there are more OSs than Windows/Mac/Linux in reality):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// +build !windows
+</span><span style=color:#75715e></span>
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>foo</span>
+</code></pre></div><p>The rewritten form says that the file can be compiled for all operating systems that are not Windows.</p>
+<p>This can also be used for tests, for example say you want to create a suite of integration tests for your code, you could simply create some test files with a build tag like this:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// +build integration
+</span><span style=color:#75715e></span>
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>foo</span>
+</code></pre></div><p>During a regular <code>go test</code> command these files will not be executed, however if you run <code>go test --tags integration</code> they will. The caveat is that your regular untagged tests will run in this case as well, in order to get only integration tests to run would be to add a <code>!integration</code> build tag to regular test files.</p>
+<h1 id=sources-and-useful-links>Sources and useful links</h1>
+<ul>
+<li><a href=https://pkg.go.dev/cmd/go#hdr-Build_constraints>Build Constraints Documentation</a></li>
+<li><a href=https://www.digitalocean.com/community/tutorials/customizing-go-binaries-with-build-tags>DigitalOcean build customization using tags</a></li>
+</ul>
 </div>
-<div class=read-more>
-<a class=u-url href=/posts/build-tags/>Read more</a>
+<div class=post-info>
+<div class="post-date dt-published">2021-08-04</div>
+<a class="post-hidden-url u-url" href=https://golang.wtf/posts/build-tags/>https://golang.wtf/posts/build-tags/</a>
+<div class=author>
+<div class=author-box>
+<img alt=Author class=author-img src=/media/authors/wwsean08.jpg>
+<h4 class=author-name><a href=https://sean.dev class="p-name p-author" rel=me>Sean Smith</a></h4>
+<p class=author-bio>Sean Smith is a Software Engineer at Discovery Inc working in release tooling to help developers make better products, faster.</p>
+</div>
+</div>
+<div class=post-taxonomies>
+</div>
 </div>
 </article>
-</div>
 </main>
 <footer class=common-footer>
 <div class=common-footer-bottom>
