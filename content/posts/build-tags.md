@@ -5,6 +5,9 @@ summary: "Build tags and special naming conventions are useful tools in your go 
 date: 2021-08-04T16:08:02-07:00
 draft: false #remember to change to false before submitting PR
 author: "wwsean08" # the name of your author file under data/authors minus the yaml file extension
+tags:
+  - build
+  - testing
 ---
 
 Go allows you to conditionally build source code based on attributes like the Operating System, Architecture, and even just plaintext tags, below is a breakdown of how they work.
