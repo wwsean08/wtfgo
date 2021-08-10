@@ -35,4 +35,3 @@ jobs:
           publish_dir: ./public
           publish_branch: publish
           cname: golang.wtf
-          force_orphan: true
