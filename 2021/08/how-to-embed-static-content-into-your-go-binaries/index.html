@@ -1,0 +1,240 @@
+<!doctype html><html lang=en-us data-theme>
+<head>
+<meta charset=utf-8>
+<meta name=HandheldFriendly content="True">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=referrer content="no-referrer-when-downgrade">
+<title>How to embed static content into your go binaries - wtf go</title>
+<meta name=description content="Sometimes go is f#!king hard">
+<link rel=icon type=image/x-icon href=https://golang.wtf/favicon.ico>
+<link rel=apple-touch-icon-precomposed href=https://golang.wtf/favicon.png>
+<link rel=stylesheet href=https://golang.wtf/css/style.min.eaefaf3ba5a542914ed7ca13efe63109f01475ec4b76830e3c925c72dc07ff27.css integrity="sha256-6u+vO6WlQpFO18oT7+YxCfAUdexLdoMOPJJcctwH/yc=">
+<meta property="og:title" content="How to embed static content into your go binaries">
+<meta property="og:description" content="Simplify your deployment by including everything your app needs within the executable">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://golang.wtf/2021/08/how-to-embed-static-content-into-your-go-binaries/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-08-14T10:30:58-07:00">
+<meta property="article:modified_time" content="2021-08-14T10:30:58-07:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="How to embed static content into your go binaries">
+<meta name=twitter:description content="Simplify your deployment by including everything your app needs within the executable">
+</head>
+<body>
+<a class=skip-main href=#main>Skip to main content</a>
+<div class=container>
+<header class=common-header>
+<div class=header-top>
+<div>
+<h1 class=site-title>
+<a class=site-url href=/><img class=logo alt=logo src=/logo.png> wtf go</a>
+</h1>
+</div>
+<div class=nav-div>
+<nav>
+<a href=https://golang.wtf/posts/ title=Archive>Archive</a>
+<a href=https://golang.wtf/about/ title=About>About</a>
+</nav>
+</div>
+<div>
+<ul class=social-icons>
+<li>
+<a href=https://github.com/wwsean08/wtfgo title=Github rel=me>
+<span class=inline-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentcolor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6.0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6.0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3.0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1.0-6.2-.3-40.4-.3-61.4.0.0-70 15-84.7-29.8.0.0-11.4-29.1-27.8-36.6.0.0-22.9-15.7 1.6-15.4.0.0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5.0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9.0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4.0 33.7-.3 75.4-.3 83.6.0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6.0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9.0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span>
+</a>
+</li>
+<li>
+<a href=/index.xml title=Rss rel=me>
+<span class=inline-svg><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" class="svg-inline--fa fa-rss fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentcolor" fill="currentcolor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328.0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765.0 183.105.0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686.0 38.981.0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</header>
+<main id=main tabindex=-1>
+<article class="post h-entry">
+<header class=post-header>
+<h1 class="p-name post-title">How to embed static content into your go binaries</h1>
+</header>
+<div class="content e-content">
+<p>Given that Go is a compiled language, compiling to a single binary, it can be easy to share your applications with the world, but sometimes there might be some other configuration or tooling that is necessary for your application to run. One example of this, could be that you&rsquo;ve trained a neural network, and wish to use the results in your go application, another might be if you are creating an API and front end, and wish to embed the HTML/CSS/JS within the binary and serve them up directly. In both of these scenarios we can leverage go to embed the files into the application and retrieve them when necessary. The one downside with this method is that these files are now tightly coupled with your application, so for example if you were to tweak the UI of a webapp, a new version of the binary produced by go would be required, there are some ways around this which will be outlined later, but first lets dive into the basic code. All examples below are also available in full <a href=https://gitlab.com/wwsean08/embed-examples>here</a>.</p>
+<p>First a simple hello world that leverages a text file in the same directory named <code>hello.txt</code> with the contents &lsquo;hello world&rsquo;.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+
+<span style=color:#f92672>import</span> (
+	<span style=color:#75715e>// note the _ which is requires since it&#39;s not being called 
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// directly anywhere in this case, and is just a build directive
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>_</span> <span style=color:#e6db74>&#34;embed&#34;</span>
+	<span style=color:#e6db74>&#34;fmt&#34;</span>
+)
+
+<span style=color:#75715e>// note that hello can&#39;t be defined as a const which means it could 
+</span><span style=color:#75715e>// be overwritten by your application at runtime
+</span><span style=color:#75715e>//go:embed hello.txt
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>hello</span> <span style=color:#66d9ef>string</span>
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;%s\n&#34;</span>, <span style=color:#a6e22e>hello</span>)
+}
+</code></pre></div><p>Running this would print out hello world, which is pretty slick, but not the most useful when you might have tens or even hundreds of files to embed. In that case you can embed a file system which would be more useful:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+
+<span style=color:#f92672>import</span> (
+	<span style=color:#e6db74>&#34;embed&#34;</span>
+	<span style=color:#e6db74>&#34;io/fs&#34;</span>
+	<span style=color:#e6db74>&#34;log&#34;</span>
+	<span style=color:#e6db74>&#34;net/http&#34;</span>
+)
+
+<span style=color:#75715e>// This will embed anything under webapp in your project
+</span><span style=color:#75715e>//go:embed webapp/*
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>files</span> <span style=color:#a6e22e>embed</span>.<span style=color:#a6e22e>FS</span>
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+	println(<span style=color:#e6db74>&#34;server listening on port 8080&#34;</span>)
+	<span style=color:#a6e22e>webapp</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>fs</span>.<span style=color:#a6e22e>Sub</span>(<span style=color:#a6e22e>files</span>, <span style=color:#e6db74>&#34;webapp&#34;</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>err</span>.<span style=color:#a6e22e>Error</span>())
+	}
+	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ListenAndServe</span>(<span style=color:#e6db74>&#34;:8080&#34;</span>, <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>FileServer</span>(<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>FS</span>(<span style=color:#a6e22e>webapp</span>))))
+}
+</code></pre></div><p>In the above example (available <a href=https://gitlab.com/wwsean08/embed-examples/-/tree/main/embed-fs>here</a>) all the files under webapp are embedded directly in the binary and served up and accessible via http://localhost:8080, allowing you to easily embed your webpage directly into your API that it is leveraging, or if you are using go templating, embedding the templates directly into the binary. This does come with the downside outlined above that in order to make a change to a file, a new build is needed which is less flexible than reading it from the file system where your application is running.</p>
+<p>With all that said you could (with a bit of work) have the best of both worlds, embed your files into the application, but allow for on the fly updates as well. Note that this is fraught with danger and likely is a bad idea for most, but may be useful in some applications.</p>
+<p><strong><em>warning</em></strong> I do not advise anyone does this as most likely it will cause issues and not be worth the hassle and code complication. Picking one method of dealing with ancillary files and sticking with it is by far a better option.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+
+<span style=color:#f92672>import</span> (
+	<span style=color:#e6db74>&#34;embed&#34;</span>
+	<span style=color:#e6db74>&#34;fmt&#34;</span>
+	<span style=color:#e6db74>&#34;io/fs&#34;</span>
+	<span style=color:#e6db74>&#34;log&#34;</span>
+	<span style=color:#e6db74>&#34;net/http&#34;</span>
+	<span style=color:#e6db74>&#34;os&#34;</span>
+)
+
+<span style=color:#75715e>// This will embed anything under webapp in your project
+</span><span style=color:#75715e>//go:embed webapp/*
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>files</span> <span style=color:#a6e22e>embed</span>.<span style=color:#a6e22e>FS</span>
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>assetRoot</span> = <span style=color:#e6db74>&#34;./tmp&#34;</span>
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+	<span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>updateFS</span>()
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>err</span>.<span style=color:#a6e22e>Error</span>())
+	}
+	<span style=color:#a6e22e>webapp</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>DirFS</span>(<span style=color:#a6e22e>assetRoot</span>)
+	<span style=color:#a6e22e>webapp</span>, <span style=color:#a6e22e>err</span> = <span style=color:#a6e22e>fs</span>.<span style=color:#a6e22e>Sub</span>(<span style=color:#a6e22e>files</span>, <span style=color:#e6db74>&#34;webapp&#34;</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>err</span>)
+	}
+	println(<span style=color:#e6db74>&#34;server listening on port 8080&#34;</span>)
+	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ListenAndServe</span>(<span style=color:#e6db74>&#34;:8080&#34;</span>, <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>FileServer</span>(<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>FS</span>(<span style=color:#a6e22e>webapp</span>))))
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>updateFS</span>() <span style=color:#66d9ef>error</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>fs</span>.<span style=color:#a6e22e>WalkDir</span>(<span style=color:#a6e22e>files</span>, <span style=color:#e6db74>&#34;.&#34;</span>, <span style=color:#a6e22e>walk</span>)
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>walk</span>(<span style=color:#a6e22e>path</span> <span style=color:#66d9ef>string</span>, <span style=color:#a6e22e>d</span> <span style=color:#a6e22e>fs</span>.<span style=color:#a6e22e>DirEntry</span>, <span style=color:#a6e22e>_</span> <span style=color:#66d9ef>error</span>) <span style=color:#66d9ef>error</span> {
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>path</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;.&#34;</span> {
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+	}
+	<span style=color:#a6e22e>newPath</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;%s/%s&#34;</span>, <span style=color:#a6e22e>assetRoot</span>, <span style=color:#a6e22e>path</span>)
+
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>d</span>.<span style=color:#a6e22e>IsDir</span>() {
+		<span style=color:#75715e>// if the directory doesn&#39;t exist, create it
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Stat</span>(<span style=color:#a6e22e>newPath</span>); <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>IsNotExist</span>(<span style=color:#a6e22e>err</span>) {
+			<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>MkdirAll</span>(<span style=color:#a6e22e>newPath</span>, <span style=color:#ae81ff>0700</span>)
+		}
+	} <span style=color:#66d9ef>else</span> {
+		<span style=color:#a6e22e>fInfo</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Stat</span>(<span style=color:#a6e22e>newPath</span>)
+		<span style=color:#75715e>// file doesn&#39;t exist, create it
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>IsNotExist</span>(<span style=color:#a6e22e>err</span>) {
+			<span style=color:#a6e22e>file</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>files</span>.<span style=color:#a6e22e>Open</span>(<span style=color:#a6e22e>path</span>)
+			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+				<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+			}
+			<span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>files</span>.<span style=color:#a6e22e>ReadFile</span>(<span style=color:#a6e22e>path</span>)
+			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+				<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
+			}
+			<span style=color:#a6e22e>fStat</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>file</span>.<span style=color:#a6e22e>Stat</span>()
+			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+				<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
+			}
+
+			<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>WriteFile</span>(<span style=color:#a6e22e>newPath</span>, <span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>fStat</span>.<span style=color:#a6e22e>Mode</span>())
+		} <span style=color:#66d9ef>else</span> {
+			<span style=color:#75715e>// file exists, update it if this version is newer (based on last modified time)
+</span><span style=color:#75715e></span>			<span style=color:#a6e22e>file</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>files</span>.<span style=color:#a6e22e>Open</span>(<span style=color:#a6e22e>path</span>)
+			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+				<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+			}
+			<span style=color:#a6e22e>fStat</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>file</span>.<span style=color:#a6e22e>Stat</span>()
+			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+				<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
+			}
+			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>fStat</span>.<span style=color:#a6e22e>ModTime</span>().<span style=color:#a6e22e>After</span>(<span style=color:#a6e22e>fInfo</span>.<span style=color:#a6e22e>ModTime</span>()) {
+				<span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>files</span>.<span style=color:#a6e22e>ReadFile</span>(<span style=color:#a6e22e>path</span>)
+				<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+					<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
+				}
+
+				<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>WriteFile</span>(<span style=color:#a6e22e>newPath</span>, <span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>fStat</span>.<span style=color:#a6e22e>Mode</span>())
+			}
+		}
+	}
+	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+}
+</code></pre></div><p>To see all the files associated with this example you can go <a href=https://gitlab.com/wwsean08/embed-examples/-/tree/main/embed-and-extract>here</a>.</p>
+<p>With all that, you should now know how to embed files within your go applications for usage at runtime, whether you want to do something simple like embedding a single file like the model output from a neural network, or something more complex like a filesystem in the example of a webapp.</p>
+</div>
+<div class=post-info>
+<div class="post-date dt-published">2021-08-14</div>
+<a class="post-hidden-url u-url" href=https://golang.wtf/2021/08/how-to-embed-static-content-into-your-go-binaries/>https://golang.wtf/2021/08/how-to-embed-static-content-into-your-go-binaries/</a>
+<div class=post-taxonomies>
+</div>
+<div class=author>
+<div class=author-box>
+<img alt=Author class=author-img src=/media/authors/wwsean08.jpg>
+<h4 class=author-name><a href=https://sean.dev class="p-name p-author" rel=me>Sean Smith</a></h4>
+<p class=author-bio>Sean Smith is a Software Engineer at Discovery Inc working in release tooling to help developers make better products, faster.</p>
+</div>
+</div>
+</div>
+</article>
+<div class="pagination post-pagination">
+<div class="left pagination-item disabled">
+</div>
+<div class="right pagination-item">
+<a href=/2021/08/accessing-the-underlying-struct-of-an-interface/>Accessing the underlying struct of an interface</a>
+</div>
+</div>
+</main>
+<footer class=common-footer>
+<div class=common-footer-bottom>
+<div class=copyright>
+<p>© Sean Smith & Contributors, 2021<br>
+Powered by <a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, theme <a target=_blank rel="noopener noreferrer" href=https://github.com/mitrichius/hugo-theme-anubis>Anubis</a>.<br>
+<div>
+This websites content and code are licensed under <a href=https://creativecommons.org/licenses/by-sa/4.0/>CC-BY-SA-4.0 License</a>
+</div>
+</p>
+</div>
+<div class=theme-wrapper>
+<button class=theme-switcher>
+🌙
+</button>
+</div>
+<script>const STORAGE_KEY='user-color-scheme',defaultTheme="auto";let currentTheme,switchButton,autoDefinedScheme=window.matchMedia('(prefers-color-scheme: dark)');const autoChangeScheme=a=>{currentTheme=a.matches?'dark':'light',document.documentElement.setAttribute('data-theme',currentTheme),changeButtonText()};document.addEventListener('DOMContentLoaded',function(){switchButton=document.querySelector('.theme-switcher'),currentTheme=detectCurrentScheme(),currentTheme=='dark'&&document.documentElement.setAttribute('data-theme','dark'),currentTheme=='auto'&&(autoChangeScheme(autoDefinedScheme),autoDefinedScheme.addListener(autoChangeScheme)),changeButtonText(),switchButton.addEventListener('click',switchTheme,!1)});function detectCurrentScheme(){return localStorage.getItem(STORAGE_KEY)?localStorage.getItem(STORAGE_KEY):defaultTheme?defaultTheme:window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light':'light'}function changeButtonText(){switchButton.textContent=currentTheme=='dark'?"☀️":"🌙"}function switchTheme(a){currentTheme=='dark'?(localStorage.setItem(STORAGE_KEY,'light'),document.documentElement.setAttribute('data-theme','light'),currentTheme='light'):(localStorage.setItem(STORAGE_KEY,'dark'),document.documentElement.setAttribute('data-theme','dark'),currentTheme='dark'),changeButtonText()}</script>
+</div>
+<p class="h-card vcard">
+<a href=https://golang.wtf class="p-name u-url url fn" rel=me>Sean Smith & Contributors</a>
+</p>
+</footer>
+</div>
+</body>
+</html>
