@@ -31,7 +31,15 @@ jobs:
 
       - name: Check that author bio exists
         run: |
-          # todo: fillin
+          files=$(ls content/posts)
+          for file in $files; do
+            authorLine=$(grep -e "^author" content/posts/$file)
+            author=$(echo $authorLine | cut -d " " -f 2 | tr -d "\"")
+            if [ ! -f "data/authors/$author.yaml" ]; then
+              echo "$file has an author that does not include a bio, please place one under data/authors"
+              exit 1
+            fi
+          done
 
   validate-not-draft:
     runs-on: ubuntu-20.04
@@ -43,4 +51,14 @@ jobs:
 
       - name: Check that draft is set to false
         run: |
-          # todo: fillin
+          files=$(ls content/posts)
+          for file in $files; do
+            draftLine=$(grep -e "^draft" content/posts/$file)
+            draftStatus=$(echo $draftLine | cut -d " " -f 2)
+            echo $draftStatus | grep -i -q "false"
+            draftIsFalse=$?
+            if [ $draftIsFalse -ne 0 ]; then
+              echo "$file is still a draft, please mark it ready for publishing by setting draft to false"
+              exit 1
+            fi
+          done
