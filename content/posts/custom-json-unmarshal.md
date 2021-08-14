@@ -7,6 +7,7 @@ draft: false #remember to change to false before submitting PR
 author: "wwsean08" # the name of your author file under data/authors minus the yaml file extension
 tags:
   - json
+  - conversion
 ---
 
 Reading and writing data is the basis of any program in every language, and go is no different.  While the default JSON unmarshaler is generally good enough to read in JSON data, there are times when you'll need to implement your own custom unmarshal.  The most common scenarios I've run into for this are that either a date/time isn't in RFC 3339 format, or the JSON data has more json data embedded in a string.  Below is an example to customize unmarshalling a time that is not in the RFC 3999 format.

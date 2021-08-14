@@ -5,6 +5,9 @@ summary: "Converting from an interface to a structure is an important tool with 
 date: 2021-08-10T08:22:39-07:00
 draft: false #remember to change to false before submitting PR
 author: "wwsean08" # the name of your author file under data/authors minus the yaml file extension
+tags:
+  - interfaces
+  - conversion
 ---
 
 Converting between an `interface` and a `struct` can be done leveraging type assertions in Go.  Let's take the following [example code](https://play.golang.org/p/EhsiuwZ89IH) and see how it would work:
