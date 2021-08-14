@@ -5,6 +5,8 @@ summary: "Simplify your deployment by including everything your app needs within
 date: 2021-08-14T10:30:58-07:00
 draft: false #remember to change to false before submitting PR
 author: "wwsean08" # the name of your author file under data/authors minus the yaml file extension
+tags:
+  - build
 ---
 
 Given that Go is a compiled language, compiling to a single binary, it can be easy to share your applications with the world, but sometimes there might be some other configuration or tooling that is necessary for your application to run.  One example of this, could be that you've trained a neural network, and wish to use the results in your go application, another might be if you are creating an API and front end, and wish to embed the HTML/CSS/JS within the binary and serve them up directly.  In both of these scenarios we can leverage go to embed the files into the application and retrieve them when necessary.  The one downside with this method is that these files are now tightly coupled with your application, so for example if you were to tweak the UI of a webapp, a new version of the binary produced by go would be required, there are some ways around this which will be outlined later, but first lets dive into the basic code.  All examples below are also available in full [here](https://gitlab.com/wwsean08/embed-examples).
