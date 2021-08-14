@@ -19,7 +19,7 @@ jobs:
           # extended: true
 
       - name: Build
-        run: hugo --path-warnings
+        run: hugo --path-warnings --i18n-warnings
 
   validate-author:
     runs-on: ubuntu-20.04
