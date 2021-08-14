@@ -14,6 +14,11 @@ menu:
     title: Archive
     url: /posts/
     weight: 1
+  - identifier: tags
+    name: Tags
+    title: Tags
+    url: /tags/
+    weight: 1
   - identifier: about
     name: About
     title: About
